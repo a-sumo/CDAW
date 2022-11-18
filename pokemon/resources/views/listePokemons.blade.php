@@ -7,5 +7,5 @@
 @endsection
  
 @section('content')
-    <p>Voici la liste de Pokemons.</p>
+    <p>Voici la liste de Pokemons: {{ $name }}</p>
 @endsection
