@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\listePokemonsController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -21,6 +21,7 @@ Route::get('/{prenom}/{nom}', function ($prenom,$nom) {
     echo($prenom.$nom);
 });
 */
-Route::get('blade', function () {
-    return view('listePokemons');
-});
+// Route::get('blade', function () {
+//     return view('listePokemons');
+// });
+Route::get('listePokemons', [listePokemonsController::class, 'getListePokemons']);

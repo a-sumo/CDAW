@@ -7,5 +7,5 @@
 @endsection
  
 @section('content')
-    <p>This is my body content.</p>
+    <p>Voici la liste de Pokemons.</p>
 @endsection
