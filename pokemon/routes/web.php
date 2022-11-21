@@ -1,7 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\listePokemonsController;
+use App\Http\Controllers\userListController;
+use App\Http\Controllers\pokemonListController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -12,16 +13,10 @@ use App\Http\Controllers\listePokemonsController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-/*
-Route::get('/', function () {
-    return view('welcome');
-});
 
-Route::get('/{prenom}/{nom}', function ($prenom,$nom) {
-    echo($prenom.$nom);
-});
-*/
-// Route::get('blade', function () {
-//     return view('listePokemons');
+Route::get('userList', [userListController::class, 'getUserList']);
+Route::get('pokemonList', [pokemonListController::class, 'getPokemonList']);
+
+// Route::get('/pokemonList', function () {
+//     return 'Hello World';
 // });
-Route::get('listePokemons', [listePokemonsController::class, 'getListePokemons']);
