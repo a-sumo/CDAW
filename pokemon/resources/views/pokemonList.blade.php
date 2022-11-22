@@ -7,5 +7,20 @@
 @endsection
  
 @section('content')
-    <p>Pokemon List: {{ $name }}</p>
+<table>
+        <thead>
+            <tr>
+                <th> id</th>
+                <th> name</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach($pokemons as $pokemon)
+            <tr>
+                <td> {{$pokemon->id}} </td>
+                <td> {{$pokemon->name}} </td>
+            </tr>
+            @endforeach
+    </tbody>
+    </table>
 @endsection

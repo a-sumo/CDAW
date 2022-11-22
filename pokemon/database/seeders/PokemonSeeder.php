@@ -6,7 +6,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
-class EnergySeeder extends Seeder
+class PokemonSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,12 +15,20 @@ class EnergySeeder extends Seeder
      */
     public function run()
     {
-        //Etape 1
-        DB::table('energy')->insert([
-             'name' => Str::random(10)
-            ]);
+        $pokemons = array(
+            array('name' => 'pikachu'),
+            array('name' => 'mewto'),
+            array('name' => 'charmander')
+        );
 
-        //Etape 2
+        foreach ($pokemons as $pokemon){
+            DB::table('pokemons')->insert([
+                'name' => $pokemon['name']
+               ]);
+        }
+
+
+        
         //\App\Models\Energy::factory(10)->create();
     }
 }
