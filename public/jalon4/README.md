@@ -5,7 +5,10 @@
 
 Progression:
 
-- Suivi du tutoriel: https://laravelarticle.com/laravel-8-authentication-tutorial
+- Je préfère suivre la documentation officielle plutôt que les tutotoriels,
+de manière à me prémunir de toute erreur.
+Je choisis d'utiliser le framework Jetstream, comme indiqué dans le GitBook/CDAW malgré le fait que je n'aie pas au préalable maitrisé Laravel/Breeze.
+
 
 Fonctionnalités implémentées :
 

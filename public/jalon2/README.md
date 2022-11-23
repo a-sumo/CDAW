@@ -9,4 +9,4 @@ Fonctionnalités implémentées :
 - Route d'affichage d'une liste avec Pokemon et énergie
 
 Route :
-http://localhost/CDAW/pokemon/pokemonList/
+http://localhost/CDAW/pokemon_0.1/pokemonList/
