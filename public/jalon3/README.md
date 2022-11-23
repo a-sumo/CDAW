@@ -14,4 +14,4 @@ J'ai dans le Jalon2 vérifié ma compréhension des Seeders et migrations simple
 
 Resources:
 
-Cf fichier ./PokeORM.pdf
+![ORM](https://github.com/a-sumo/CDAW/blob/main/public/jalon3/PokeORM.png)
