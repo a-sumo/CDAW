@@ -3,10 +3,16 @@
 
 <description>
 
-Fonctionnalités implémentées :
-- Migration de table
-- Seeder d'ajout de données dans les tables
-- Route d'affichage d'une liste avec Pokemon et énergie
+## Fonctionnalités implémentées :
 
-Route :
+- [] importation datatable
+- [] remplissage datatable
+- [] 
+
+## Remarques:
+
+Utilisation de Livewire Datatables. 
+Les datatables seront importées dans le fichier template.
+
+## Route :
 http://localhost/CDAW/pokemon_0.1/pokemonList/
