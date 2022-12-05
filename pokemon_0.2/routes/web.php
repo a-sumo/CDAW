@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\userListController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -25,4 +25,8 @@ Route::middleware([
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
+    Route::get('/leaderboard', function () {
+        return view('leaderboard');
+    })->name('leaderboard');
+    Route::get('/leaderboard', [userListController::class, 'getUserList'])->name('leaderboard');
 });
