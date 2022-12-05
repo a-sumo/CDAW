@@ -17,8 +17,8 @@
                     </x-jet-nav-link>
                 </div>
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-jet-nav-link href="{{ route('user-datatable') }}" :active="request()->routeIs('user-datatable')">
-                        {{ __('UserDatatable') }}
+                    <x-jet-nav-link href="{{ route('leaderboard') }}" :active="request()->routeIs('leaderboard')">
+                        {{ __('Leaderboard') }}
                     </x-jet-nav-link>
                 </div>
             </div>

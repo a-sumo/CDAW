@@ -33,11 +33,15 @@
 
             <!-- Page Content -->
             <main>
-                @yield('content', $slot ?? '')
+                @yield('content')
+
             </main>
         </div>
-        
+
+        @stack('modals')
+
         @livewireScripts
-        @yield('script')
     </body>
 </html>
+
+ 
