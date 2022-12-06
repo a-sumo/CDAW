@@ -29,4 +29,8 @@ Route::middleware([
         return view('leaderboard');
     })->name('leaderboard');
     Route::get('/leaderboard', [userListController::class, 'getUserList'])->name('leaderboard');
+    Route::get('/pokedex', function () {
+        return view('pokedex');
+    })->name('pokedex');
+    Route::get('/pokedex', [pokemonListController::class, 'getPokemonList'])->name('pokedex');
 });
