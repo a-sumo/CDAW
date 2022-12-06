@@ -1,7 +1,7 @@
 @extends('layouts/template')
 
 @section('content')
-<table id="table_users" class="display">
+<table id="table-leaderboard" class="display">
         <thead>
             <tr>
                 <th> id</th>
@@ -19,9 +19,9 @@
 </table>
 @endsection
 @section('script')
-
+<script>
 $(document).ready( function () {
-  $('#myTable').DataTable();
+  $('#table-leaderboard').DataTable();
 } );
-
+</script>
 @endsection
