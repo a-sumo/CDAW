@@ -14,7 +14,7 @@ use App\Http\Controllers\userListController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('dashboard');
 });
 
 Route::middleware([
