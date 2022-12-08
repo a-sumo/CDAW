@@ -16,8 +16,15 @@ return new class extends Migration
         Schema::create('pokemons', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('species');
+            $table->foreignId('species_id')
+            ->constrained()
+            ->onUpdate('cascade')
+            ->onDelete('cascade');
             $table->unsignedBigInteger('experience');
+            $table->unsignedBigInteger('hp');
+            $table->unsignedBigInteger('attack');
+            $table->unsignedBigInteger('defense');
+            $table->unsignedBigInteger('speed');
         });
     }
 
