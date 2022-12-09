@@ -11,6 +11,6 @@ php artisan serve
 ```
 
 Test User:
-- Name: Ash
-- Email: Ash@email.com
-- Password: Ash
+- Name: Test
+- Email: Test@email.com
+- Password: TestUser

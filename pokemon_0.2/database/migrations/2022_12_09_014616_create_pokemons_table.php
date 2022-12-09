@@ -21,7 +21,7 @@ return new class extends Migration
             ->constrained()
             ->onUpdate('cascade')
             ->onDelete('cascade');
-            $table->foreignId('users_id')
+            $table->foreignId('user_id')
             ->constrained()
             ->onUpdate('cascade')
             ->onDelete('cascade');
@@ -43,9 +43,9 @@ return new class extends Migration
             ->onDelete('cascade');                
             $table->unsignedBigInteger('experience');
             $table->unsignedBigInteger('hp');
-            $table->unsignedBigInteger('attack');
-            $table->unsignedBigInteger('defense');
-            $table->unsignedBigInteger('speed');
+            $table->float('attack');
+            $table->float('defense');
+            $table->float('speed');
         });
     }
 

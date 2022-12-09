@@ -16,10 +16,6 @@ return new class extends Migration
         Schema::create('species', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->unsignedBigInteger('base_hp');
-            $table->unsignedBigInteger('base_attack');
-            $table->unsignedBigInteger('base_defense');
-            $table->unsignedBigInteger('base_speed');
         });
     }
 

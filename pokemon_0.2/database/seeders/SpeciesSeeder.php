@@ -17,7 +17,7 @@ class SpeciesSeeder extends Seeder
     {
         //
         DB::table('species')->insert([
-            'name' => 'Bulbazaur',
+            'name' => 'Bulbasaur',
         ]);
         DB::table('species')->insert([
             'name' => 'Charmander',
