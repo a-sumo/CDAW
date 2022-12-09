@@ -22,13 +22,12 @@ je revisiterai la documentation de Laravel/Breeze pour mieux ancrer des notions 
 
 Fonctionnalités implémentées :
 
-- [] Routes publiques / Routes protégées
-- [] Création de compte
-- [] Connexion via un login / mot de passe
-- [] Modification de profil
-- [] Déconnexion
-- [] Modification des icones 
-- [] Tests
+- [x] Routes publiques / Routes protégées
+- [x] Création de compte
+- [x] Connexion via un login / mot de passe
+- [x] Modification de profil
+- [x] Déconnexion
+- [x] Modification des icones 
 
 
 Routes:
