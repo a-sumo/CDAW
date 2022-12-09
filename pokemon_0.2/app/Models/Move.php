@@ -14,5 +14,6 @@ class Move extends Model
         'name',
         'power',
         'accuracy',
+        'type',
     ];
 }

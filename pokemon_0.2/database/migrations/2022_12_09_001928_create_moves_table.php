@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('moves', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('type');
             $table->integer('power');
             $table->integer('accuracy');
         });
