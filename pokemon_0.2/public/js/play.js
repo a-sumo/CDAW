@@ -4,6 +4,9 @@ const c = canvas.getContext('2d')
 canvas.width = 1024
 canvas.height = 576
 
+// for (let i = 0; i < collisions.length; i+= 70){
+//     console.log(collisions.slice(0, 70))
+// }
 c.fillStyle = 'white'
 c.fillRect(0, 0, canvas.width, canvas.height)
 
@@ -87,6 +90,7 @@ function animate(){
 }
 
 animate()
+
 let lastKey = ''
 window.addEventListener('keydown', (e) => {
     console.log(e.key)

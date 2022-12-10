@@ -8,10 +8,9 @@ use Illuminate\Support\Facades\View;
 
 class userController extends Controller
 {
-    // Fetch all users from user model
     public function getUserList(){
         $users =  DB::table('users')->get();
-        return View::make('stats', compact('users'));
+        return view('stats', compact('users'));
     }
 
 }
