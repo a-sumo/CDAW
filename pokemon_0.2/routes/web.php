@@ -1,7 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\userListController;
+use App\Http\Controllers\userController;
+use App\Http\Controllers\pokemonController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -15,22 +16,20 @@ use App\Http\Controllers\userListController;
 
 Route::get('/', function () {
     return view('home');
-});
-Route::get('/pokedex', function () {
-    return view('pokedex');
-})->name('pokedex');
-
+})->name('home');
 
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
     'verified'
 ])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
-    Route::get('/leaderboard', function () {
-        return view('leaderboard');
-    })->name('leaderboard');
-    Route::get('/leaderboard', [userListController::class, 'getUserList'])->name('leaderboard');
+    Route::get('/play', function () {
+        return view('play');
+    })->name('play');
+    // Route::get('/play', [userListController::class, 'getUserList'],[pokemonListController::class, 'getPokemonList'])->name('play');
+    Route::get('/stats', function () {
+        return view('stats');
+    })->name('stats');
+    Route::get('/stats', [userController::class, 'getUserList'])->name('stats');
+    Route::get('/stats', [pokemonController::class, 'getPokemonList'])->name('stats');
 });

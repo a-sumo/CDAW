@@ -9,7 +9,11 @@ class Species extends Model
 {
     use HasFactory;
     protected $table = 'species';
-
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var string[]
+     */
     protected $fillable = [
         'name', 
         'base_hp', 

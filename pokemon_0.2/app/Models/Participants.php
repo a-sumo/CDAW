@@ -9,7 +9,11 @@ class Participants extends Model
 {
     use HasFactory;
     protected $table = 'participants';
-
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var string[]
+     */
     protected $fillable = [
         'user_id',
         'battle_id',

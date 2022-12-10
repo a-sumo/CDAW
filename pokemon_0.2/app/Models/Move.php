@@ -9,7 +9,11 @@ class Move extends Model
 {
     use HasFactory;
     protected $table = 'moves';
-
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var string[]
+     */
     protected $fillable = [
         'name',
         'power',
