@@ -18,6 +18,7 @@
         <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js">></script>
         <!-- Styles -->
         <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
+        @yield('style')
         @livewireStyles
     </head>
     <body class="font-sans antialiased">
@@ -38,7 +39,6 @@
             <!-- Page Content -->
             <main>
                 @yield('content')
-
             </main>
         </div>
 
