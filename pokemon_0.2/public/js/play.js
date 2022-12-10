@@ -9,7 +9,7 @@ for (let i = 0; i < collisions.length; i+= 70){
     collisionsMap.push(collisions.slice(i, 70 + i))
 }
 const battleZonesMap = []
-for (let i = 0; i < collisions.length; i+= 70){
+for (let i = 0; i < battleZonesData.length; i+= 70){
     battleZonesMap.push(battleZonesData.slice(i, 70 + i))
 }
 
@@ -64,7 +64,6 @@ battleZonesMap.forEach((row, i) => {
         }
     })
 })
-console.log(battleZones)
 const image = new Image()
 image.src = "./img/Peach Town.png"
 
@@ -135,8 +134,7 @@ class Sprite {
         }
     }
 }
-// canvas.width/2 - (this.image.width/4)/2, 
-// canvas.height/2  - this.image.height/2,
+
 
 const player = new Sprite({
     position: {
@@ -200,6 +198,9 @@ function rectangularCollision({ rectangle1, rectangle2}){
         rectangle1.position.y + rectangle1.height >= rectangle2.position.y 
     )
 }
+const battle = {
+    initiated: false
+}
 function animate(){
     window.requestAnimationFrame(animate)
     background.draw()
@@ -215,16 +216,29 @@ function animate(){
 
     let moving = true
     player.moving = false
+
+    if (battle.initiated) return
     if (keys.w.pressed || keys.a.pressed || keys.s.pressed || keys.d.pressed){
         for (let i=0; i < battleZones.length; i++){
             const battleZone = battleZones[i]
+            const overlappingArea = 
+            (Math.min(player.position.x + player.width,
+                battleZone.position.x + battleZone.width) 
+                - Math.max(player.position.x, battleZone.position.x)) * 
+            (Math.min(player.position.y + player.height, 
+                battleZone.position.y + battleZone.height)
+                - Math.max(player.position.y, battleZone.position.y))
             if (
                 rectangularCollision({
                     rectangle1: player,
                     rectangle2: battleZone
-                })
+                }) 
+                &&
+                overlappingArea > (player.width * player.height) / 2 &&
+                Math.random() < 0.01
             ) {
-                console.log('battle zone collision ');
+                console.log('activate battle');
+                battle.initiated = true
                 break
             }
         }
