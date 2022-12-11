@@ -6,11 +6,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\View;
 
-class userController extends Controller
+class UserController extends Controller
 {
     public function getUserList(){
         $users =  DB::table('users')->get();
-        return view('stats', compact('users'));
+        return view('stats', array('users' => $users));
     }
 
 }

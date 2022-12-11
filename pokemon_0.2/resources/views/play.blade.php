@@ -9,7 +9,8 @@
 @endsection
 @section('content')
 <div style="display: inline-block; position: relative;">
-    <div style="background-color: black; position: absolute;
+    <div id="overlappingDiv"
+    style="background-color: black; position: absolute;
     top : 0; right:0; bottom: 0; left: 0; opacity:0; pointer-events: "></div>
     <canvas width= "1024" height= "576"></canvas>
 </div>

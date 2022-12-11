@@ -1,8 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\userController;
-use App\Http\Controllers\pokemonController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\PokemonController;
+use App\Http\Controllers\StatsController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -18,6 +19,7 @@ Route::get('/', function () {
     return view('home');
 })->name('home');
 
+
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
@@ -26,10 +28,8 @@ Route::middleware([
     Route::get('/play', function () {
         return view('play');
     })->name('play');
-    // Route::get('/play', [userListController::class, 'getUserList'],[pokemonListController::class, 'getPokemonList'])->name('play');
     Route::get('/stats', function () {
         return view('stats');
     })->name('stats');
-    Route::get('/stats', [userController::class, 'getUserList'])->name('stats');
-    Route::get('/stats', [pokemonController::class, 'getPokemonList'])->name('stats');
+    Route::get('/stats', [StatsController::class, 'getPokemonData'])->name('stats');
 });
