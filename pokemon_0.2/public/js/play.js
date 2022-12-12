@@ -373,6 +373,14 @@ function animate(){
 
 animate()
 
+document.querySelectorAll('game-ui').forEach(button => {
+    button.addEventListener('click', () => {
+        console.log('clicked')
+    })
+})
+addEventListener('click', () => {
+    console.log('clicked')
+})
 const battleBackgroundImage = new Image()
 battleBackgroundImage.src = './img/battleBackground.png'
 

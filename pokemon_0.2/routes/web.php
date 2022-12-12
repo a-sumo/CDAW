@@ -28,6 +28,7 @@ Route::middleware([
     Route::get('/play', function () {
         return view('play');
     })->name('play');
+    Route::get('/play', [StatsController::class, 'getPokemonGameData'])->name('play');
     Route::get('/stats', function () {
         return view('stats');
     })->name('stats');

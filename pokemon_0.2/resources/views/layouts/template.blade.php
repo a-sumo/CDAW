@@ -8,6 +8,9 @@
         <title>{{ config('app.name', 'Poké') }}</title>
 
         <!-- Fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet"> 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
         
@@ -18,6 +21,12 @@
         <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js">></script>
         <!-- Styles -->
         <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
+        <style>
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+        * {
+            font-family: 'Press Start 2P', cursive;
+        }
+        </style> 
         @yield('style')
         @livewireStyles
     </head>

@@ -8,7 +8,15 @@
         <title>{{ config('app.name') }}</title>
 
         <!-- Fonts -->
-        <link rel="stylesheet" href="https://fonts.bunny.net/css2?family=Nunito:wght@400;600;700&display=swap">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet"> 
+        <style>
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+        * {
+            font-family: 'Press Start 2P', cursive;
+        }
+        </style> 
 
         <!-- Scripts -->
         <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
