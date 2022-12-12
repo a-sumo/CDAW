@@ -97,15 +97,13 @@ image.onload = () => {
 }
 
 class Sprite {
-    constructor({position, velocity, image, frames = {max: 1}, sprites, animate= false}){
+    constructor({position, velocity, image, frames = {max: 1, hold: 10}, sprites, animate = false}){
         this.position = position
         this.image = image
         this.frames = {...frames, val: 0, elapsed: 0}
         this.image.onload = () => {
             this.width = this.image.width / this.frames.max
             this.height = this.image.height
-            console.log(this.width);
-            console.log(this.height);
         }
         this.animate = animate
         this.sprites = sprites
@@ -123,11 +121,13 @@ class Sprite {
             this.image.width / this.frames.max,
             this.image.height,
         )
-        if(!this.moving) return
+        // move player sprite only when keyboard is pressed
+        if(!this.animate) return
+
         if (this.frames.max > 1){
             this.frames.elapsed++
         }
-        if (this.frames.elapsed % 10 ===0){
+        if (this.frames.elapsed % this.frames.hold === 0){
             if (this.frames.val < this.frames.max - 1) this.frames.val++
             else this.frames.val = 0            
         }
@@ -142,7 +142,8 @@ const player = new Sprite({
     },
     image: playerDownImage,
     frames: {
-        max: 4
+        max: 4,
+        hold: 10
     },
     sprites: {
         up: playerUpImage,
@@ -386,31 +387,36 @@ const draggleImage = new Image()
 draggleImage.src = './img/draggleSprite.png'
 const draggle = new Sprite({
     position: {
-        x: 380,
-        y: 200
+        x: 700,
+        y: 240
     },
     image: draggleImage,
     frames: {
-        max: 4
-    }
+        max: 4,
+        hold: 30
+    },
+    animate: true
 })
 const embyImage = new Image()
 embyImage.src = './img/embySprite.png'
 const emby = new Sprite({
     position: {
-        x: 200,
-        y: 400
+        x: 400,
+        y: 440
     },
     image: embyImage,
     frames: {
-        max: 4
-    } 
+        max: 4,
+        hold: 20
+    },
+    animate: true
 })
 
 function animateBattle(){
     window-requestAnimationFrame(animateBattle)
     battleBackground.draw()
     draggle.draw()
+    emby.draw()
 }
 
 let lastKey = ''
