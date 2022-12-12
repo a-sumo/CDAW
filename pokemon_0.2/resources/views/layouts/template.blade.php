@@ -8,14 +8,13 @@
         <title>{{ config('app.name', 'Poké') }}</title>
 
         <!-- Fonts -->
-        <link rel="stylesheet" href="https://fonts.bunny.net/css2?family=Nunito:wght@400;600;700&display=swap">
         <!-- Scripts -->
-        <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
+        
         <script
         src="https://code.jquery.com/jquery-3.6.1.min.js"
         integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
         crossorigin="anonymous"></script>
-        
         <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js">></script>
         <!-- Styles -->
         <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
@@ -25,7 +24,7 @@
     <body class="font-sans antialiased">
         <x-jet-banner />
 
-        <div class="min-h-screen bg-gray-100">
+        <!-- <div class="min-h-screen bg-gray-100"> -->
             @livewire('navigation-menu')
 
             <!-- Page Heading -->

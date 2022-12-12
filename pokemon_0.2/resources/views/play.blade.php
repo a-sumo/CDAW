@@ -1,8 +1,16 @@
 @extends('layouts/template')
 
 @section('style')
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet"> 
 <style>
-</style>
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+* {
+    font-family: 'Press Start 2P', cursive;
+}
+</style> 
+
 @endsection
 @section('content')
 <div style="display: inline-block; position: relative;">
@@ -17,14 +25,15 @@
          right: 0;
          border-top: 4px black solid;
          display: flex;">
-            <div class= "grid grid-cols-2 basis-2/3 border-2 gap-1">
-                <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold border border-gray-400 rounded shadow">Attack1</button>
-                <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold border border-gray-400 rounded shadow">Attack2</button>
-                <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold border border-gray-400 rounded shadow">Attack3</button>
-                <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold border border-gray-400 rounded shadow">Attack4</button>
+            <div class= "grid grid-cols-2 basis-2/3 border-2">
+                <button class="bg-white hover:bg-gray-100 text-gray-800 font-press-start ">Attack1</button>
+                <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold ">Attack2</button>
+                <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold ">Attack3</button>
+                <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold ">Attack4</button>
             </div>
-            <div class= "grid grid-cols-1 basis-1/3 gap-1 border-2">
-                <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold border border-gray-400 rounded shadow">Attack4</button>
+            
+            <div class= "grid grid-cols-1 basis-1/3 border-2">
+                <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold">Attack4</button>
             </div>
         </div>
     <canvas width= "1024" height= "576"></canvas>
