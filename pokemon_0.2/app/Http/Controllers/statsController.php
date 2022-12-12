@@ -18,5 +18,13 @@ class StatsController extends Controller
         ['sprites']['versions']['generation-v']['black-white']['animated']['front_default'];
         return view('stats',['pokemons' => $pokemons, 'sprites'=> [$sprite_back_animated, $sprite_front_animated]]);
     }
+    public function getPokemonGameData(){
+        $pokemons = Pokemon::all();
+        $sprite_back_animated = Http::get('https://pokeapi.co/api/v2/pokemon/bulbasaur/')
+        ['sprites']['versions']['generation-v']['black-white']['animated']['back_default'];
+        $sprite_front_animated = Http::get('https://pokeapi.co/api/v2/pokemon/bulbasaur/')
+        ['sprites']['versions']['generation-v']['black-white']['animated']['front_default'];
+        return view('play',['pokemons' => $pokemons, 'sprites'=> [$sprite_back_animated, $sprite_front_animated]]);
+    }
 
 }
