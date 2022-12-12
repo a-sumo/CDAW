@@ -379,7 +379,7 @@ battleBackgroundImage.src = './img/battleBackground.png'
 const battleBackground = new Sprite({
     position: {
         x: 0,
-        y: -1
+        y: -100
     },
     image: battleBackgroundImage
 })
@@ -388,7 +388,7 @@ draggleImage.src = './img/draggleSprite.png'
 const draggle = new Sprite({
     position: {
         x: 700,
-        y: 240
+        y: 120
     },
     image: draggleImage,
     frames: {
@@ -402,7 +402,7 @@ embyImage.src = './img/embySprite.png'
 const emby = new Sprite({
     position: {
         x: 400,
-        y: 440
+        y: 340
     },
     image: embyImage,
     frames: {
