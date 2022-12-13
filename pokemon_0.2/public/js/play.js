@@ -1,101 +1,20 @@
+import { monsters } from './monsters.js';
+import { battleZonesData } from '../data/battleZones.js';
+import { collisions } from '../data/collisions.js';
+import { attacks } from './attacks.js';
 const canvas = document.querySelector('canvas');
-const c = canvas.getContext('2d')
-canvas.width = 1024
-canvas.height = 576
+const c = canvas.getContext('2d');
+canvas.width = 1024;
+canvas.height = 576;
 
-const collisionsMap = []
+const collisionsMap = [];
 for (let i = 0; i < collisions.length; i+= 70){
-    collisionsMap.push(collisions.slice(i, 70 + i))
+    collisionsMap.push(collisions.slice(i, 70 + i));
 }
-const battleZonesMap = []
+const battleZonesMap = [];
 for (let i = 0; i < battleZonesData.length; i+= 70){
-    battleZonesMap.push(battleZonesData.slice(i, 70 + i))
+    battleZonesMap.push(battleZonesData.slice(i, 70 + i));
 }
-
-class Boundary {
-    static width = 48
-    static height = 48
-    constructor({position}){
-        this.position = position
-        this.width = 48
-        this.height = 48
-    }
-    draw(){
-        c.fillStyle = 'rgba(255, 0, 0, 0.2)'
-        c.fillRect(this.position.x, this.position.y, this.width, this.height)
-    }
-}
-
-const boundaries = []
-const offset = {
-    x:-1074,
-    y:-900
-}
-collisionsMap.forEach((row, i) => {
-    row.forEach((symbol, j) => {
-        if(symbol === 1025){
-            boundaries.push(
-                new Boundary({
-                    position:{
-                        x: j * Boundary.width + offset.x,
-                        y: i * Boundary.height + offset.y,
-                    }
-                })
-            )
-        }
-    })
-})
-c.fillStyle = 'white'
-c.fillRect(0, 0, canvas.width, canvas.height)
-
-const battleZones = []
-battleZonesMap.forEach((row, i) => {
-    row.forEach((symbol, j) => {
-        if(symbol === 1025){
-            battleZones.push(
-                new Boundary({
-                    position:{
-                        x: j * Boundary.width + offset.x,
-                        y: i * Boundary.height + offset.y,
-                    }
-                })
-            )
-        }
-    })
-})
-const image = new Image()
-image.src = "./img/Peach Town.png"
-
-const foregroundImage = new Image()
-foregroundImage.src = "./img/foregroundObjects.png"
-
-const playerDownImage = new Image()
-playerDownImage.src = './img/playerDown.png'
-
-const playerUpImage = new Image()
-playerUpImage.src = './img/playerUp.png'
-
-const playerLeftImage = new Image()
-playerLeftImage.src = './img/playerLeft.png'
-
-const playerRightImage = new Image()
-playerRightImage.src = './img/playerRight.png'
-
-image.onload = () => {
-    c.drawImage(image, -1000, -850)
-    c.drawImage(
-        playerImage, 
-        0,
-        0,
-        playerImage.width / 4,
-        playerImage.height,
-        canvas.width/2 - (playerImage.width/4)/2, 
-        canvas.height/2  - playerImage.height/2,
-        playerImage.width / 4,
-        playerImage.height,
-    )
-}
-
 class Sprite {
     constructor({
         position,
@@ -104,24 +23,20 @@ class Sprite {
         frames = {max: 1, hold: 10},
         sprites,
         animate = false,
-        isEnemy = false,
-        name,
     }){
-        this.position = position
-        this.image = image
-        this.frames = {...frames, val: 0, elapsed: 0}
+        this.position = position;
+        this.image = image;
+        this.frames = {...frames, val: 0, elapsed: 0};
         this.image.onload = () => {
             this.width = this.image.width / this.frames.max
             this.height = this.image.height
         }
-        this.animate = animate
-        this.sprites = sprites
-        this.opacity = 1.0
-        this.health = 100
-        this.isEnemy = isEnemy
-        this.name = name
+        this.animate = animate;
+        this.sprites = sprites;
+        this.opacity = 1.0;
 
     }
+
     draw(){
         c.save()
         c.globalAlpha = this.opacity
@@ -148,27 +63,52 @@ class Sprite {
             else this.frames.val = 0            
         }
     }
+}
+class Monster extends Sprite {
+    constructor({        
+        position,
+        velocity,
+        image,
+        frames = {max: 1, hold: 10},
+        sprites,
+        animate = false,
+        isEnemy = false,
+        name,
+        attacks
+    }) {
+        super({
+            position,
+            velocity,
+            image,
+            frames,
+            sprites,
+            animate,
+        })
+        this.isEnemy = isEnemy
+        this.health = 100
+        this.name = name
+        this.attacks = attacks
+    }
     attack({attack, recipient}){
+        document.querySelector('#dialogueBox').style.display = 'block';
+        document.querySelector('#dialogueBox').innerHTML = this.name + ' used ' + attack.name; 
+        const tl =  gsap.timeline();
+        this.health -= attack.damage;
+        let movementDistance = 20;
+        if (this.isEnemy) movementDistance = -20;
 
-        document.querySelector('#dialogueBox').style.display = 'block'
-        document.querySelector('#dialogueBox').innerHTML = this.name + ' used ' + attack.name 
-        switch (attack.name){}
-        const tl =  gsap.timeline()
-        this.health -= attack.damage
-        let movementDistance = 20
-        if (this.isEnemy) movementDistance = -20
-
-        let healthBar = '#enemyHealthBar'
-        if (this.isEnemy) healthBar = '#playerHealthBar'
+        let healthBar = '#enemyHealthBar';
+        if (this.isEnemy) healthBar = '#playerHealthBar';
 
         tl.to(this.position, {
             x: this.position.x - 20 + movementDistance * 2
-        }).to(this.position,{
+        })
+        .to(this.position,{
             x: this.position.x + 40,
             duration: 0.1,
             onComplete: () => {
                 // enemy gets hit
-                gsap.to('#enemyHealthBar', {
+                gsap.to(healthBar, {
                     width: this.health + '%'
                 })
                 gsap.to(recipient.position, {
@@ -179,7 +119,7 @@ class Sprite {
                     opacity: 0.001
                 })
                 gsap.to(recipient, {
-                    opacity: 0.001,
+                    opacity: 0,
                     repeat: 5,
                     yoyo: true,
                     duration: 0.08
@@ -188,9 +128,91 @@ class Sprite {
         }).to(this.position,{
             x: this.position.x
         })
+    } 
+}
+class Boundary {
+    static width = 48;
+    static height = 48;
+    constructor({position}){
+        this.position = position;
+        this.width = 48;
+        this.height = 48;
     }
+    draw(){
+        c.fillStyle = 'rgba(255, 0, 0, 0.2)';
+        c.fillRect(this.position.x, this.position.y, this.width, this.height);
+    };
 }
 
+const boundaries = [];
+const offset = {
+    x:-1074,
+    y:-900
+};
+collisionsMap.forEach((row, i) => {
+    row.forEach((symbol, j) => {
+        if(symbol === 1025){
+            boundaries.push(
+                new Boundary({
+                    position:{
+                        x: j * Boundary.width + offset.x,
+                        y: i * Boundary.height + offset.y,
+                    }
+                })
+            )
+        }
+    })
+})
+c.fillStyle = 'white';
+c.fillRect(0, 0, canvas.width, canvas.height);
+
+const battleZones = [];
+battleZonesMap.forEach((row, i) => {
+    row.forEach((symbol, j) => {
+        if(symbol === 1025){
+            battleZones.push(
+                new Boundary({
+                    position:{
+                        x: j * Boundary.width + offset.x,
+                        y: i * Boundary.height + offset.y,
+                    }
+                })
+            )
+        }
+    })
+})
+const image = new Image();
+image.src = "./img/Peach Town.png";
+
+const foregroundImage = new Image();
+foregroundImage.src = "./img/foregroundObjects.png";
+
+const playerDownImage = new Image();
+playerDownImage.src = './img/playerDown.png';
+
+const playerUpImage = new Image();
+playerUpImage.src = './img/playerUp.png';
+
+const playerLeftImage = new Image();
+playerLeftImage.src = './img/playerLeft.png';
+
+const playerRightImage = new Image();
+playerRightImage.src = './img/playerRight.png';
+
+image.onload = () => {
+    c.drawImage(image, -1000, -850)
+    c.drawImage(
+        playerImage, 
+        0,
+        0,
+        playerImage.width / 4,
+        playerImage.height,
+        canvas.width/2 - (playerImage.width/4)/2, 
+        canvas.height/2  - playerImage.height/2,
+        playerImage.width / 4,
+        playerImage.height,
+    )
+}
 
 const player = new Sprite({
     position: {
@@ -208,7 +230,7 @@ const player = new Sprite({
         right: playerRightImage,
         down: playerDownImage,
     }
-})
+});
 
 const background = new Sprite({
     position: {
@@ -216,14 +238,14 @@ const background = new Sprite({
         y: offset.y
     },
     image: image
-})
+});
 const foreground = new Sprite({
     position: {
         x: offset.x,
         y: offset.y
     },
     image: foregroundImage
-})
+});
 const keys = {
     w: {
         pressed: false
@@ -237,15 +259,15 @@ const keys = {
     d: {
         pressed: false
     },
-}
+};
 
 const testBoundary = new Boundary({
     position:{
         x: 400,
         y: 400
     }
-})
-const movables = [background, ...boundaries, foreground, ...battleZones]
+});
+const movables = [background, ...boundaries, foreground, ...battleZones];
 
 function rectangularCollision({ rectangle1, rectangle2}){
     return (
@@ -255,9 +277,7 @@ function rectangularCollision({ rectangle1, rectangle2}){
         rectangle1.position.y + rectangle1.height >= rectangle2.position.y 
     )
 }
-const battle = {
-    initiated: false
-}
+const battle = { initiated: false };
 function animate(){
     const animationId = window.requestAnimationFrame(animate)
     background.draw()
@@ -429,17 +449,8 @@ function animate(){
 }
 
 animate()
+const queue = []
 
-// event listeners for buttons 
-document.querySelectorAll('button').forEach((button) => {
-    button.addEventListener('click', (e) => {
-        const selectedAttack = attacks[e.currentTarget.innerHTML]
-        emby.attack({
-            attack: selectedAttack,
-            recipient: draggle
-        })
-    })
-})
 const battleBackgroundImage = new Image()
 battleBackgroundImage.src = './img/battleBackground.png'
 
@@ -450,38 +461,20 @@ const battleBackground = new Sprite({
     },
     image: battleBackgroundImage
 })
-const draggleImage = new Image()
-draggleImage.src = './img/draggleSprite.png'
-const draggle = new Sprite({
-    position: {
-        x: 700,
-        y: 120
-    },
-    image: draggleImage,
-    frames: {
-        max: 4,
-        hold: 30
-    },
-    animate: true,
-    isEnemy: true,
-    name: 'Draggle'
-})
-const embyImage = new Image()
-embyImage.src = './img/embySprite.png'
-const emby = new Sprite({
-    position: {
-        x: 400,
-        y: 340
-    },
-    image: embyImage,
-    frames: {
-        max: 4,
-        hold: 20
-    },
-    animate: true,
-    name: 'Emby'
-})
+
+const draggle = new Monster(monsters.Draggle)
+const emby = new Monster(monsters.Emby)
+console.log(emby)
 const renderedSprites = [draggle, emby]
+
+emby.attacks.forEach((attack) => {
+    const button = document.createElement('button')
+    button.innerHTML = attack.name
+    button.classList.add("bg-white","hover:bg-gray-100", "text-gray-800")
+    document.querySelector('#attacksBox').append(button)
+})
+
+
 function animateBattle(){
     window-requestAnimationFrame(animateBattle)
     battleBackground.draw()
@@ -490,6 +483,31 @@ function animateBattle(){
     })
 }
 
+document.querySelector('#dialogueBox').addEventListener('click', (e) => {
+    if (queue.length > 0){
+        queue[0]()
+        queue.shift()
+    } else e.currentTarget.style.display = 'none'
+})
+// event listeners for buttons 
+document.querySelectorAll('button').forEach((button) => {
+    button.addEventListener('click', (e) => {
+        console.log('clicked')
+        const selectedAttack = attacks[e.currentTarget.innerHTML]
+        emby.attack({
+            attack: selectedAttack,
+            recipient: draggle
+        })
+        const randomAttack = draggle.attacks[Math.floor(Math.random() * draggle.attacks.length)]
+        queue.push(() => {
+            draggle.attack({
+                attack: randomAttack, 
+                recipient: emby,
+                renderedSprites
+            })
+        })
+    })
+})
 let lastKey = ''
 window.addEventListener('keydown', (e) => {
     switch (e.key){

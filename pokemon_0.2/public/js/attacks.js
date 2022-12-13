@@ -10,3 +10,5 @@ const attacks = {
         type: 'Fire'
     }
 }
+
+export { attacks }
