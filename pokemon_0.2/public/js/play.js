@@ -97,7 +97,15 @@ image.onload = () => {
 }
 
 class Sprite {
-    constructor({position, velocity, image, frames = {max: 1, hold: 10}, sprites, animate = false}){
+    constructor({
+        position,
+        velocity,
+        image,
+        frames = {max: 1, hold: 10},
+        sprites,
+        animate = false,
+        isEnemy = false
+    }){
         this.position = position
         this.image = image
         this.frames = {...frames, val: 0, elapsed: 0}
@@ -107,9 +115,14 @@ class Sprite {
         }
         this.animate = animate
         this.sprites = sprites
+        this.opacity = 1.0
+        this.health = 100
+        this.isEnemy = isEnemy
 
     }
     draw(){
+        c.save()
+        c.globalAlpha = this.opacity
         c.drawImage(
             this.image, 
             this.frames.val * this.width,
@@ -121,6 +134,7 @@ class Sprite {
             this.image.width / this.frames.max,
             this.image.height,
         )
+        c.restore()
         // move player sprite only when keyboard is pressed
         if(!this.animate) return
 
@@ -131,6 +145,44 @@ class Sprite {
             if (this.frames.val < this.frames.max - 1) this.frames.val++
             else this.frames.val = 0            
         }
+    }
+    attack({attack, recipient}){
+        
+        const tl =  gsap.timeline()
+        this.health -= attack.damage
+        let movementDistance = 20
+        if (this.isEnemy) movementDistance = -20
+
+        let healthBar = '#enemyHealthBar'
+        if (this.isEnemy) healthBar = '#playerHealthBar'
+
+        tl.to(this.position, {
+            x: this.position.x - 20 + movementDistance * 2
+        }).to(this.position,{
+            x: this.position.x + 40,
+            duration: 0.1,
+            onComplete: () => {
+                // enemy gets hit
+                gsap.to('#enemyHealthBar', {
+                    width: this.health + '%'
+                })
+                gsap.to(recipient.position, {
+                    x: recipient.position.x + 10,
+                    yoyo: true, 
+                    repeat: 5,
+                    duration: 0.08,
+                    opacity: 0.001
+                })
+                gsap.to(recipient, {
+                    opacity: 0.001,
+                    repeat: 5,
+                    yoyo: true,
+                    duration: 0.08
+                })
+            }
+        }).to(this.position,{
+            x: this.position.x
+        })
     }
 }
 
@@ -373,13 +425,16 @@ function animate(){
 
 animate()
 
-document.querySelectorAll('game-ui').forEach(button => {
+document.querySelectorAll('button').forEach((button) => {
     button.addEventListener('click', () => {
-        console.log('clicked')
+        emby.attack({ attack: {
+            name: 'Tackle',
+            damage: 10,
+            type: 'Normal'
+        },
+        recipient: draggle
+        })
     })
-})
-addEventListener('click', () => {
-    console.log('clicked')
 })
 const battleBackgroundImage = new Image()
 battleBackgroundImage.src = './img/battleBackground.png'
@@ -403,7 +458,8 @@ const draggle = new Sprite({
         max: 4,
         hold: 30
     },
-    animate: true
+    animate: true,
+    isEnemy: true,
 })
 const embyImage = new Image()
 embyImage.src = './img/embySprite.png'
