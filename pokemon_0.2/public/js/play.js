@@ -104,7 +104,8 @@ class Sprite {
         frames = {max: 1, hold: 10},
         sprites,
         animate = false,
-        isEnemy = false
+        isEnemy = false,
+        name,
     }){
         this.position = position
         this.image = image
@@ -118,6 +119,7 @@ class Sprite {
         this.opacity = 1.0
         this.health = 100
         this.isEnemy = isEnemy
+        this.name = name
 
     }
     draw(){
@@ -147,7 +149,10 @@ class Sprite {
         }
     }
     attack({attack, recipient}){
-        
+
+        document.querySelector('#dialogueBox').style.display = 'block'
+        document.querySelector('#dialogueBox').innerHTML = this.name + ' used ' + attack.name 
+        switch (attack.name){}
         const tl =  gsap.timeline()
         this.health -= attack.damage
         let movementDistance = 20
@@ -425,14 +430,13 @@ function animate(){
 
 animate()
 
+// event listeners for buttons 
 document.querySelectorAll('button').forEach((button) => {
-    button.addEventListener('click', () => {
-        emby.attack({ attack: {
-            name: 'Tackle',
-            damage: 10,
-            type: 'Normal'
-        },
-        recipient: draggle
+    button.addEventListener('click', (e) => {
+        const selectedAttack = attacks[e.currentTarget.innerHTML]
+        emby.attack({
+            attack: selectedAttack,
+            recipient: draggle
         })
     })
 })
@@ -460,6 +464,7 @@ const draggle = new Sprite({
     },
     animate: true,
     isEnemy: true,
+    name: 'Draggle'
 })
 const embyImage = new Image()
 embyImage.src = './img/embySprite.png'
@@ -473,14 +478,16 @@ const emby = new Sprite({
         max: 4,
         hold: 20
     },
-    animate: true
+    animate: true,
+    name: 'Emby'
 })
-
+const renderedSprites = [draggle, emby]
 function animateBattle(){
     window-requestAnimationFrame(animateBattle)
     battleBackground.draw()
-    draggle.draw()
-    emby.draw()
+    renderedSprites.forEach((sprite) => {
+        sprite.draw()
+    })
 }
 
 let lastKey = ''

@@ -26,9 +26,11 @@
         right: 0;
         border-top: 4px black solid;
         display: flex;">
+        <div id= "dialogueBox" style = "background-color: white;
+        position: absolute; top: 0; right: 0; bottom: 0; left: 0; padding: 12px; display: none">test</div>
         <div class= "grid grid-cols-2 basis-2/3 border-2">
-            <button class="bg-white hover:bg-gray-100 text-gray-800 ">Attack1</button>
-            <button class="bg-white hover:bg-gray-100 text-gray-800 ">Attack2</button>
+            <button class="bg-white hover:bg-gray-100 text-gray-800 ">Tackle</button>
+            <button class="bg-white hover:bg-gray-100 text-gray-800 ">Fireball</button>
             <button class="bg-white hover:bg-gray-100 text-gray-800 ">Attack3</button>
             <button class="bg-white hover:bg-gray-100 text-gray-800 ">Attack4</button>
         </div> 
@@ -75,6 +77,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.3/gsap.min.js" integrity="sha512-gmwBmiTVER57N3jYS3LinA9eb8aHrJua5iQD7yqYCKa5x6Jjc7VDVaEA0je0Lu0bP9j7tEjV3+1qUm6loO99Kw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script type= "text/javascript" src="./data/battleZones.js"></script>
 <script type= "text/javascript" src="./data/collisions.js"></script>
-<script type= "text/javascript" src="./js/classes.js"></script>
+<script type= "text/javascript" src="./js/attacks.js"></script>
 <script type= "module" src="./js/play.js"></script>
 @endsection
