@@ -12,7 +12,9 @@ export const monsters = {
             x: 400,
             y: 340
         },
-        image: embyImage,
+        image: {
+            src: './img/embySprite.png'
+        },
         frames: {
             max: 4,
             hold: 20
@@ -26,7 +28,9 @@ export const monsters = {
             x: 700,
             y: 120
         },
-        image: draggleImage,
+        image: {
+            src: './img/draggleSprite.png'
+        },
         frames: {
             max: 4,
             hold: 20
