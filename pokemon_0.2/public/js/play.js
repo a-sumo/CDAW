@@ -1,20 +1,25 @@
-import { monsters } from './monsters.js';
-import { battleZonesData } from '../data/battleZones.js';
 import { collisions } from '../data/collisions.js';
+import { battleZonesData } from '../data/battleZones.js';
+import { monsters } from './monsters.js';
 import { attacks } from './attacks.js';
+
+// create game canvas
 const canvas = document.querySelector('canvas');
 const c = canvas.getContext('2d');
 canvas.width = 1024;
 canvas.height = 576;
 
+// load collisions 1-d array into collisionsMap 2-d array
 const collisionsMap = [];
 for (let i = 0; i < collisions.length; i+= 70){
     collisionsMap.push(collisions.slice(i, 70 + i));
 }
+// load battleZones 1-d array into battleZonesMap 2-d array
 const battleZonesMap = [];
 for (let i = 0; i < battleZonesData.length; i+= 70){
     battleZonesMap.push(battleZonesData.slice(i, 70 + i));
 }
+
 class Sprite {
     constructor({
         position,
@@ -110,6 +115,7 @@ class Monster extends Sprite {
             duration: 0.1,
             onComplete: () => {
                 // enemy gets hit
+                
                 gsap.to(healthBar, {
                     width: recipient.health + '%'
                 })
@@ -132,7 +138,7 @@ class Monster extends Sprite {
         })
     } 
     faint() {
-        document.querySelector('#dialogueBox').innerHTML = this.name + ' fainted'; 
+        document.querySelector('#dialogueBox').innerHTML = this.name + ' fainted!'; 
         gsap.to(this.position, {
             y: this.position.y + 20
         })
@@ -289,8 +295,9 @@ function rectangularCollision({ rectangle1, rectangle2}){
     )
 }
 const battle = { initiated: false };
+let animationId 
 function animate(){
-    const animationId = window.requestAnimationFrame(animate)
+    animationId = window.requestAnimationFrame(animate)
     background.draw()
     boundaries.forEach(boundary =>{
         boundary.draw()
@@ -307,8 +314,10 @@ function animate(){
 
     if (battle.initiated) return
     if (keys.w.pressed || keys.a.pressed || keys.s.pressed || keys.d.pressed){
+        // check if player is inside a battlezone
         for (let i=0; i < battleZones.length; i++){
             const battleZone = battleZones[i]
+            // overlapping area between player sprite and battlezone
             const overlappingArea = 
             (Math.min(player.position.x + player.width,
                 battleZone.position.x + battleZone.width) 
@@ -323,7 +332,7 @@ function animate(){
                 }) 
                 &&
                 overlappingArea > (player.width * player.height) / 2 &&
-                Math.random() < 0.9
+                Math.random() < 0.99
             ) {
                 // deactivate current animation loop
                 window.cancelAnimationFrame(animationId)
@@ -350,6 +359,7 @@ function animate(){
                         })
                     }
                 })
+                // exit collision checking loop
                 break
             }
         }
@@ -440,7 +450,7 @@ function animate(){
                 rectangularCollision({
                     rectangle1: player,
                     rectangle2: {...boundary, position:{
-                        x:boundary.position.x - 3,
+                        x: boundary.position.x - 3,
                         y: boundary.position.y,
                     }}
                 })
@@ -460,8 +470,6 @@ function animate(){
 }
 
 animate()
-let queue = []
-
 const battleBackgroundImage = new Image()
 battleBackgroundImage.src = './img/battleBackground.png'
 
@@ -473,18 +481,12 @@ const battleBackground = new Sprite({
     image: battleBackgroundImage
 })
 
-let draggle = new Monster(monsters.Draggle)
-let emby = new Monster(monsters.Emby)
-let renderedSprites = [draggle, emby]
+let draggle
+let emby 
+let renderedSprites
+let queue 
 
-emby.attacks.forEach((attack) => {
-    const button = document.createElement('button')
-    button.innerHTML = attack.name
-    button.classList.add("bg-white","hover:bg-gray-100", "text-gray-800")
-    document.querySelector('#attacksBox').append(button)
-})
 
-let battleAnimationId
 
 function initBattle(){
     document.querySelector('#userInterface').style.display = 'block'
@@ -496,13 +498,14 @@ function initBattle(){
     draggle = new Monster(monsters.Draggle)
     emby = new Monster(monsters.Emby)
     renderedSprites = [draggle, emby]
+    queue = []
     emby.attacks.forEach((attack) => {
         const button = document.createElement('button')
         button.innerHTML = attack.name
         button.classList.add("bg-white","hover:bg-gray-100", "text-gray-800")
         document.querySelector('#attacksBox').append(button)
     })
-    queue = []
+
     document.querySelectorAll('button').forEach((button) => {
         button.addEventListener('click', (e) => {
             const selectedAttack = attacks[e.currentTarget.innerHTML]
@@ -518,16 +521,16 @@ function initBattle(){
                     gsap.to('#overlappingDiv', {
                         opacity: 1,
                         onComplete: () => {
-                            cancelAnimationFrame(battleAnimationId)
+                            battle.initiated = false
                             animate()
                             document.querySelector('#userInterface').style.display = 'none'
                             gsap.to('#overlappingDiv', {
                                 opacity: 0
                             })
+                            battle.initiated = false
                         }
                     })
                 })
-                return
             }
             // enemy attack
             const randomAttack = draggle.attacks[Math.floor(Math.random() * draggle.attacks.length)]
@@ -543,6 +546,21 @@ function initBattle(){
                     queue.push(() => {
                         emby.faint()
                     })
+                    queue.push(()=>{
+                        gsap.to('#overlappingDiv', {
+                            opacity: 1,
+                            onComplete: () => {
+                                battle.initiated = false
+                                cancelAnimationFrame(battleAnimationId)
+                                animate()
+                                document.querySelector('#userInterface').style.display = 'none'
+                                gsap.to('#overlappingDiv', {
+                                    opacity: 0
+                                })
+                                battle.initiated = false
+                            }
+                        })
+                    })
                 }
             })
         })
@@ -553,6 +571,9 @@ function initBattle(){
         })
     })
 }
+
+let battleAnimationId
+
 function animateBattle(){
     battleAnimationId = window.requestAnimationFrame(animateBattle)
     battleBackground.draw()
@@ -581,6 +602,7 @@ document.querySelectorAll('button').forEach((button) => {
                 draggle.faint()
             })
             queue.push(()=>{
+                //fade back to black
                 gsap.to('#overlappingDiv', {
                     opacity: 1,
                     onComplete: () => {
@@ -590,11 +612,10 @@ document.querySelectorAll('button').forEach((button) => {
                         gsap.to('#overlappingDiv', {
                             opacity: 0
                         })
-                        battle.initiated = false;
+                        battle.initiated = false
                     }
                 })
             })
-            return
         }
         // enemy attack
         const randomAttack = draggle.attacks[Math.floor(Math.random() * draggle.attacks.length)]

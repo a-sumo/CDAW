@@ -14,11 +14,11 @@
 @endsection
 @section('content')
 <div style="display: inline-block; position: relative;">
+    <div id="overlappingDiv"
+    style="background-color: black; position: absolute;
+    top : 0; right:0; bottom: 0; left: 0; opacity:0; pointer-events: none ">
+    </div>
     <div id = "userInterface">
-        <div id="overlappingDiv"
-        style="background-color: black; position: absolute;
-        top : 0; right:0; bottom: 0; left: 0; opacity:0; pointer-events: none ">
-        </div>
         <div style= "background-color: white;
             height: 140px; 
             position: absolute; 
@@ -35,7 +35,7 @@
                 <button id= "attackType" class="bg-white hover:bg-gray-100 text-gray-800 font-semibold">Attack Type</button>
             </div>
         </div>
-        <div id="overlappingDiv"
+        <!-- <div id="overlappingDiv"
         style="background-color: black; position: absolute;
         top: 0;
         right: 0;
@@ -44,8 +44,8 @@
         opacity:0;
         pointer-events:
         none;
-        z-index: 10 ">
-        </div>
+        z-index: 10 "> 
+        </div> -->
         <div 
             style="background-color: white; width: 250px; position: absolute; top: 50px; left: 50px;
             border: 4px black solid; padding: 12px;">
