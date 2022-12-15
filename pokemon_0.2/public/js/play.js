@@ -198,6 +198,11 @@ battleZonesMap.forEach((row, i) => {
         }
     })
 })
+
+function randomVal(min, max) { // min and max included 
+    return Math.floor(Math.random() * (max - min + 1) + min)
+}
+
 const image = new Image();
 image.src = "./img/Peach Town.png";
 
@@ -481,13 +486,14 @@ const battleBackground = new Sprite({
     image: battleBackgroundImage
 })
 
-let draggle
-let emby 
+let ally
+let enemy 
 let renderedSprites
 let queue 
 
 
-
+// Upon battle initialization,
+// the ally is 
 function initBattle(){
     document.querySelector('#userInterface').style.display = 'block'
     document.querySelector('#dialogueBox').style.display = 'none'
@@ -495,11 +501,12 @@ function initBattle(){
     document.querySelector('#playerHealthBar').style.width = '100%'
     document.querySelector('#attacksBox').replaceChildren()
 
-    draggle = new Monster(monsters.Draggle)
-    emby = new Monster(monsters.Emby)
-    renderedSprites = [draggle, emby]
+    ally = new Monster(monsters.Ally);
+    enemy = new Monster(monsters.Enemy); 
+
+    renderedSprites = [ally, enemy]
     queue = []
-    emby.attacks.forEach((attack) => {
+    enemy.attacks.forEach((attack) => {
         const button = document.createElement('button')
         button.innerHTML = attack.name
         button.classList.add("bg-white","hover:bg-gray-100", "text-gray-800")
@@ -509,13 +516,13 @@ function initBattle(){
     document.querySelectorAll('button').forEach((button) => {
         button.addEventListener('click', (e) => {
             const selectedAttack = attacks[e.currentTarget.innerHTML]
-            emby.attack({
+            enemy.attack({
                 attack: selectedAttack,
-                recipient: draggle
+                recipient: ally
             })
-            if(draggle.health <= 0){
+            if(ally.health <= 0){
                 queue.push(()=>{
-                    draggle.faint()
+                    ally.faint()
                 })
                 queue.push(()=>{
                     gsap.to('#overlappingDiv', {
@@ -533,18 +540,18 @@ function initBattle(){
                 })
             }
             // enemy attack
-            const randomAttack = draggle.attacks[Math.floor(Math.random() * draggle.attacks.length)]
+            const randomAttack = ally.attacks[Math.floor(Math.random() * ally.attacks.length)]
             
             queue.push(() => {
-                draggle.attack({
+                ally.attack({
                     attack: randomAttack, 
-                    recipient: emby,
+                    recipient: enemy,
                     renderedSprites
                 })
     
-                if (emby.health <=0){
+                if (enemy.health <=0){
                     queue.push(() => {
-                        emby.faint()
+                        enemy.faint()
                     })
                     queue.push(()=>{
                         gsap.to('#overlappingDiv', {
@@ -593,13 +600,13 @@ document.querySelectorAll('button').forEach((button) => {
     button.addEventListener('click', (e) => {
         console.log('clicked')
         const selectedAttack = attacks[e.currentTarget.innerHTML]
-        emby.attack({
+        enemy.attack({
             attack: selectedAttack,
-            recipient: draggle
+            recipient: ally
         })
-        if(draggle.health <= 0){
+        if(ally.health <= 0){
             queue.push(()=>{
-                draggle.faint()
+                ally.faint()
             })
             queue.push(()=>{
                 //fade back to black
@@ -618,18 +625,18 @@ document.querySelectorAll('button').forEach((button) => {
             })
         }
         // enemy attack
-        const randomAttack = draggle.attacks[Math.floor(Math.random() * draggle.attacks.length)]
+        const randomAttack = ally.attacks[Math.floor(Math.random() * ally.attacks.length)]
         
         queue.push(() => {
-            draggle.attack({
+            ally.attack({
                 attack: randomAttack, 
-                recipient: emby,
+                recipient: enemy,
                 renderedSprites
             })
 
-            if (emby.health <=0){
+            if (enemy.health <=0){
                 queue.push(() => {
-                    emby.faint()
+                    enemy.faint()
                 })
                 // end battle
                 queue.push(()=>{
@@ -659,18 +666,22 @@ let lastKey = ''
 window.addEventListener('keydown', (e) => {
     switch (e.key){
         case 'w':
+        case "ArrowUp":
             keys.w.pressed = true
             lastKey = 'w'
             break
         case 'a':
+        case "ArrowLeft":
             keys.a.pressed = true
             lastKey = 'a'
             break
         case 's':
+        case "ArrowDown":
             keys.s.pressed = true
             lastKey = 's'
             break
         case 'd':
+        case "ArrowRight":
             keys.d.pressed = true
             lastKey = 'd'
             break
@@ -679,18 +690,21 @@ window.addEventListener('keydown', (e) => {
 window.addEventListener('keyup', (e) => {
     switch (e.key){
         case 'w':
+        case "ArrowUp":
             keys.w.pressed = false
             break
         case 'a':
+        case "ArrowLeft":
             keys.a.pressed = false
         break
         case 's':
+        case "ArrowDown":
             keys.s.pressed = false
             break
         case 'd':
+        case "ArrowRight":
             keys.d.pressed = false
             break
     }
 })
-
 

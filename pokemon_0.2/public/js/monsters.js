@@ -7,7 +7,7 @@ const embyImage = new Image();
 embyImage.src = './img/embySprite.png';
 
 export const monsters = {
-    Emby: {
+    Ally: {
         position: {
             x: 400,
             y: 340
@@ -23,7 +23,7 @@ export const monsters = {
         name: 'Emby',
         attacks: [attacks.Tackle, attacks.Fireball]
     },
-    Draggle: {
+    Enemy: {
         position: {
             x: 700,
             y: 120
