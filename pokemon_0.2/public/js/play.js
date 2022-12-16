@@ -202,7 +202,20 @@ battleZonesMap.forEach((row, i) => {
 function randomVal(min, max) { // min and max included 
     return Math.floor(Math.random() * (max - min + 1) + min)
 }
+async function fetchPokemon(id){    
+    fetch(`https://pokeapi.co/api/v2/pokemon/${id}`)
+    .then(response => response.json())  
+    .then(function(data){
+        let name = data.name;
+        let url = data.sprites.other.dream_world.front_default;
+        if(name && url)
+        {
+            initBattle(name ,url);
+            animateBattle()
 
+        }
+    });
+}
 const image = new Image();
 image.src = "./img/Peach Town.png";
 
@@ -342,6 +355,9 @@ function animate(){
                 // deactivate current animation loop
                 window.cancelAnimationFrame(animationId)
                 battle.initiated = true
+                // run async function to fetch PokeAPI
+                const id = randomVal(1, 100)
+                fetchPokemon(id)
                 gsap.to("#overlappingDiv", {
                     opacity: 1,
                     repeat: 3,
@@ -354,8 +370,8 @@ function animate(){
                             duration: 0.4,
                             onComplete(){
                                 // activate  new animation loop
-                                initBattle()
-                                animateBattle()
+                                // initBattle()
+                                // animateBattle()
                                 gsap.to('#overlappingDiv', {
                                     opacity: 0,
                                     duration: 0.4
@@ -494,7 +510,7 @@ let queue
 
 // Upon battle initialization,
 // the ally is 
-function initBattle(){
+function initBattle(name, url){
     document.querySelector('#userInterface').style.display = 'block'
     document.querySelector('#dialogueBox').style.display = 'none'
     document.querySelector('#enemyHealthBar').style.width = '100%'
@@ -502,7 +518,23 @@ function initBattle(){
     document.querySelector('#attacksBox').replaceChildren()
 
     ally = new Monster(monsters.Ally);
-    enemy = new Monster(monsters.Enemy); 
+    enemy = new Monster({
+        position: {
+            x: 700,
+            y: 120
+        },
+        image: {
+            src: url
+        },
+        frames: {
+            max: 1,
+            hold: 20
+        },
+        animate: true,
+        isEnemy: true,
+        name: name,
+        attacks: [attacks.Tackle, attacks.Fireball]
+    }); 
 
     renderedSprites = [ally, enemy]
     queue = []

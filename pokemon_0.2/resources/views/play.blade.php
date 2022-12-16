@@ -32,7 +32,7 @@
             <div id = "attacksBox" class= "grid grid-cols-2 basis-2/3 border-2">
             </div> 
             <div class= "grid grid-cols-1 basis-1/3 border-2">
-                <button id= "attackType" class="bg-white hover:bg-gray-100 text-gray-800 font-semibold">Attack Type</button>
+                <div id= "attackType" class="bg-white hover:bg-gray-100 text-gray-800 font-semibold">Attack Type</div>
             </div>
         </div>
         <!-- <div id="overlappingDiv"
