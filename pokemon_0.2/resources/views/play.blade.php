@@ -49,7 +49,7 @@
         <div 
             style="background-color: white; width: 250px; position: absolute; top: 50px; left: 50px;
             border: 4px black solid; padding: 12px;">
-            <h1 style= "font-size: 16px">Draggle</h1>
+            <div><h1 id = "enemyName" style= "font-size: 16px">Draggle</h1></div>
             <div style= "position: relative;">
                 <div style="height: 5px; background-color: #ccc; margin-top: 10px"></div>
                 <div id = "enemyHealthBar" style="height: 5px;
@@ -63,7 +63,7 @@
         <div 
             style="background-color: white; width: 250px; position: absolute; top: 320px; left: 610px;
             border: 4px black solid; padding: 12px;">
-            <h1 style= "font-size: 16px">Emby</h1>
+            <div><h1 id = "allyName" style= "font-size: 16px">Emby</h1></div>
             <div style= "position: relative;">
                 <div style="height: 5px; background-color: #ccc; margin-top: 10px"></div>
                 <div id = "playerHealthBar" style="height: 5px;

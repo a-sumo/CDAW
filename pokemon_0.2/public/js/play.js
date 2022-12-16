@@ -23,6 +23,7 @@ for (let i = 0; i < battleZonesData.length; i+= 70){
 class Sprite {
     constructor({
         position,
+        scale = {x: 1, y: 1},
         velocity,
         image,
         frames = {max: 1, hold: 10},
@@ -30,7 +31,8 @@ class Sprite {
         animate = false,
     }){
         this.position = position;
-        this.image = new Image()
+        this.image = new Image();
+        this.scale = scale,
         this.frames = {...frames, val: 0, elapsed: 0};
         this.image.onload = () => {
             this.width = this.image.width / this.frames.max
@@ -55,8 +57,8 @@ class Sprite {
             this.image.height,
             this.position.x,
             this.position.y,
-            this.image.width / this.frames.max,
-            this.image.height,
+            this.scale.x * this.image.width / this.frames.max,
+            this.scale.y * this.image.height,
         )
         c.restore()
         // move player sprite only when keyboard is pressed
@@ -74,6 +76,7 @@ class Sprite {
 class Monster extends Sprite {
     constructor({        
         position,
+        scale,
         velocity,
         image,
         frames = {max: 1, hold: 10},
@@ -85,6 +88,7 @@ class Monster extends Sprite {
     }) {
         super({
             position,
+            scale,
             velocity,
             image,
             frames,
@@ -98,7 +102,7 @@ class Monster extends Sprite {
     }
     attack({attack, recipient}){
         document.querySelector('#dialogueBox').style.display = 'block';
-        document.querySelector('#dialogueBox').innerHTML = this.name + ' used ' + attack.name; 
+        document.querySelector('#dialogueBox').innerHTML =  this.name[0].toUpperCase() + this.name.substring(1) + ' used ' + attack.name; 
         const tl =  gsap.timeline();
         recipient.health -= attack.damage;
         let movementDistance = 20;
@@ -207,7 +211,7 @@ async function fetchPokemon(id){
     .then(response => response.json())  
     .then(function(data){
         let name = data.name;
-        let url = data.sprites.other.dream_world.front_default;
+        let url = data['sprites']['front_default'];
         if(name && url)
         {
             initBattle(name ,url);
@@ -216,8 +220,8 @@ async function fetchPokemon(id){
         }
     });
 }
-const image = new Image();
-image.src = "./img/Peach Town.png";
+const mapImage = new Image();
+mapImage.src = "./img/Peach Town.png";
 
 const foregroundImage = new Image();
 foregroundImage.src = "./img/foregroundObjects.png";
@@ -234,18 +238,18 @@ playerLeftImage.src = './img/playerLeft.png';
 const playerRightImage = new Image();
 playerRightImage.src = './img/playerRight.png';
 
-image.onload = () => {
-    c.drawImage(image, -1000, -850)
+mapImage.onload = () => {
+    c.drawImage(mapImage, -1000, -850)
     c.drawImage(
-        image, 
+        mapImage, 
         0,
         0,
-        image.width / 4,
-        image.height,
-        canvas.width/2 - (image.width/4)/2, 
-        canvas.height/2  - image.height/2,
-        image.width / 4,
-        image.height,
+        mapImage.width / 4,
+        mapImage.height,
+        canvas.width/2 - (mapImage.width/4)/2, 
+        canvas.height/2  - mapImage.height/2,
+        mapImage.width / 4,
+        mapImage.height,
     )
 }
 
@@ -272,7 +276,7 @@ const background = new Sprite({
         x: offset.x,
         y: offset.y
     },
-    image: image
+    image: mapImage
 });
 const foreground = new Sprite({
     position: {
@@ -511,17 +515,22 @@ let queue
 // Upon battle initialization,
 // the ally is 
 function initBattle(name, url){
-    document.querySelector('#userInterface').style.display = 'block'
-    document.querySelector('#dialogueBox').style.display = 'none'
-    document.querySelector('#enemyHealthBar').style.width = '100%'
-    document.querySelector('#playerHealthBar').style.width = '100%'
-    document.querySelector('#attacksBox').replaceChildren()
+    document.querySelector('#userInterface').style.display = 'block';
+    document.querySelector('#dialogueBox').style.display = 'none';
+    document.querySelector('#enemyHealthBar').style.width = '100%';
+    document.querySelector('#playerHealthBar').style.width = '100%';
+    document.querySelector('#attacksBox').replaceChildren();
+    document.querySelector('#enemyName').innerHTML = name[0].toUpperCase() + name.substring(1);
 
     ally = new Monster(monsters.Ally);
     enemy = new Monster({
         position: {
-            x: 700,
-            y: 120
+            x: 650,
+            y: 90
+        },
+        scale: {
+            x: 2,
+            y: 2
         },
         image: {
             src: url
@@ -530,7 +539,7 @@ function initBattle(name, url){
             max: 1,
             hold: 20
         },
-        animate: true,
+        animate: false,
         isEnemy: true,
         name: name,
         attacks: [attacks.Tackle, attacks.Fireball]
