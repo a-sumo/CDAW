@@ -15,5 +15,18 @@ Test User:
 - Email: Test@email.com
 - Password: TestUser
 
-TODO:
-- 
+Implemented features:
+
+- player movement inside map with collisions and battlezones
+- pokemon encounters within battlezones
+- battlescene with generic abilities
+- enemy pokemon storage inside pokédex upon battle end
+- display of Pokémon sprites and names fetched with PokéAPI
+
+Features that aven't been implement due to time constraints:
+
+-  types for moves and pokemons
+-  damage and health recovery system 
+-  storage and display of additional pokemon information
+-  recording of events from user session
+
