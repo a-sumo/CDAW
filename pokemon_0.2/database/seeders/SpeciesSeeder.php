@@ -17,13 +17,13 @@ class SpeciesSeeder extends Seeder
     {
         //
         DB::table('species')->insert([
-            'name' => 'Bulbasaur',
+            'name' => 'bulbasaur',
         ]);
         DB::table('species')->insert([
-            'name' => 'Charmander',
+            'name' => 'charmander',
         ]);
         DB::table('species')->insert([
-            'name' => 'Squirtle',
+            'name' => 'squirtle',
         ]);
     }
 }
