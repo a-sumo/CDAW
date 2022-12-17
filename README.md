@@ -9,6 +9,7 @@ composer update
 php artisan migrate --seed
 php artisan serve 
 ```
+You may also need to run ```npm run build``` upon first installation, though I have attempted to make the project non-reliant on building. 
 
 Test User:
 - Name: Test
