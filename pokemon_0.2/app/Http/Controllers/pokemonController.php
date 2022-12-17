@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\View; 
 use Illuminate\Support\Facades\Http;
 use App\Models\Pokemon;
-use App\Http\Requests\StorePokemonRequest;
 
 class PokemonController extends Controller
 {
