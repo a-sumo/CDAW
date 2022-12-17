@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Pokemon extends Model
 {
     use HasFactory;
+    public $timestamps = false;
     protected $table = 'pokemons';
     /**
      * The attributes that are mass assignable.

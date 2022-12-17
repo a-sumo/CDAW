@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Participants extends Model
 {
     use HasFactory;
+    public $timestamps = false;
     protected $table = 'participants';
     /**
      * The attributes that are mass assignable.

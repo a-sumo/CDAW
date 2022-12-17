@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Move extends Model
 {
     use HasFactory;
+    public $timestamps = false;
     protected $table = 'moves';
     /**
      * The attributes that are mass assignable.

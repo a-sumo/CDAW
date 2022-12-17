@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Battle extends Model
 {
     use HasFactory;
+    public $timestamps = false;
+    
     protected $table = 'battles';
     /**
      * The attributes that are mass assignable.

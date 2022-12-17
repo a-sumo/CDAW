@@ -17,6 +17,6 @@ use App\Http\Controllers\Api\StatsController;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::get('/pokemon', ['App\Http\Controllers\PokemonController', 'listApi'])->middleware('auth:sanctum');
-Route::post('/pokemon', ['App\Http\Controllers\PokemonController', 'createApi'])->middleware('auth:sanctum');
-Route::delete('/pokemon/{id}', ['App\Http\Controllers\PokemonController', 'deleteApi'])->middleware('auth:sanctum');
+Route::get('/pokemon', ['App\Http\Controllers\PokemonController', 'listApi']);
+Route::post('/species', ['App\Http\Controllers\SpeciesController', 'createApi']);
+Route::delete('/species/{id}', ['App\Http\Controllers\SpeciesController', 'deleteApi']);

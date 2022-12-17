@@ -1,7 +1,10 @@
 @extends('layouts/template')
 
 @section('content')
-<div style="margin: 30px;  display: grid;">
+<div class = "text-center py-10">Pokédex</div>
+<div style="
+display: grid; 
+grid-template-columns: repeat(12, 40px);">
 @foreach($sprites as $sprite)
 <img src="<?php print_r($sprite); ?>">
 @endforeach

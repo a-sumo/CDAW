@@ -7,12 +7,13 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\View; 
 use Illuminate\Support\Facades\Http;
 use App\Models\Pokemon;
+use App\Models\Species;
 use App\Http\Requests\StorePokemonRequest;
 
 class StatsController extends Controller
 {
     public function getPokemonData(){
-        $pokemons = Pokemon::all();
+        $pokemons = Species::all();
         $sprites = array();
         foreach ($pokemons as $key => $value){
             $url = 'https://pokeapi.co/api/v2/pokemon/' . lcfirst($value->name) . '/';

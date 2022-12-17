@@ -520,7 +520,7 @@ function endBattle(enemyName){
                 animate()
                 document.querySelector('#userInterface').style.display = 'none'
                 // Save Pokemon in Pokedex
-                createNewPokemon(enemyName)
+                storeSpecies(enemyName)
                 gsap.to('#overlappingDiv', {
                     opacity: 0,
                 })
@@ -671,12 +671,19 @@ window.addEventListener('keyup', (e) => {
     }
 })
 
-function createNewPokemon(name) {
+function storeSpecies(name) {
+    // let options = {
+    //     method: "POST",
+    //     headers: {
+    //         'Accept': 'application/json',
+    //         'Content-Type': 'application/json'
+    //       },
+    //     body: JSON.stringify(pokemonObj)
+    //   }
     const formData = new FormData();
     formData.append("name", name);
-  
-    return fetch("/api/pokemon", { method: "POST", body: formData }).then(
-      (response) => response.json()
+    return fetch("http://localhost:8000/api/species", { method: "POST", body: formData }).then(
+      (response) => {console.log(response); response.json();}
     );
   }
   

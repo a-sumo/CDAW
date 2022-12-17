@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Species extends Model
 {
     use HasFactory;
+    public $timestamps = false;
     protected $table = 'species';
     /**
      * The attributes that are mass assignable.
@@ -16,9 +17,5 @@ class Species extends Model
      */
     protected $fillable = [
         'name', 
-        'base_hp', 
-        'base_attack', 
-        'base_defense', 
-        'base_speed',
     ];
 }
