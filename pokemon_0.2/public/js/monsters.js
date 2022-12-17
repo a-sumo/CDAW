@@ -25,8 +25,8 @@ export const monsters = {
     },
     Enemy: {
         position: {
-            x: 600,
-            y: 80
+            x: 700,
+            y: 120
         },
         image: {
             src: './img/draggleSprite.png'

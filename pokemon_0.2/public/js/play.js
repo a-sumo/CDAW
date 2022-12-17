@@ -128,7 +128,7 @@ class Monster extends Sprite {
                     yoyo: true, 
                     repeat: 5,
                     duration: 0.08,
-                    opacity: 0.001
+                    opacity: 0
                 })
                 gsap.to(recipient, {
                     opacity: 0,
@@ -142,12 +142,12 @@ class Monster extends Sprite {
         })
     } 
     faint() {
-        document.querySelector('#dialogueBox').innerHTML = this.name + ' fainted!'; 
+        document.querySelector('#dialogueBox').innerHTML = this.name[0].toUpperCase() + this.name.substring(1) + ' fainted!'; 
         gsap.to(this.position, {
             y: this.position.y + 20
         })
         gsap.to(this, {
-            opacity: 0
+            opacity: 0,
         })
     }
 }
@@ -214,6 +214,7 @@ async function fetchPokemon(id){
         let url = data['sprites']['front_default'];
         if(name && url)
         {
+
             initBattle(name ,url);
             animateBattle()
 
@@ -354,14 +355,13 @@ function animate(){
                 }) 
                 &&
                 overlappingArea > (player.width * player.height) / 2 &&
-                Math.random() < 0.99
+                Math.random() < 0.05
             ) {
                 // deactivate current animation loop
                 window.cancelAnimationFrame(animationId)
                 battle.initiated = true
                 // run async function to fetch PokeAPI
                 const id = randomVal(1, 100)
-                fetchPokemon(id)
                 gsap.to("#overlappingDiv", {
                     opacity: 1,
                     repeat: 3,
@@ -373,9 +373,7 @@ function animate(){
                             opacity: 1,
                             duration: 0.4,
                             onComplete(){
-                                // activate  new animation loop
-                                // initBattle()
-                                // animateBattle()
+                                fetchPokemon(id)
                                 gsap.to('#overlappingDiv', {
                                     opacity: 0,
                                     duration: 0.4
@@ -384,6 +382,7 @@ function animate(){
                         })
                     }
                 })
+                
                 // exit collision checking loop
                 break
             }
@@ -511,9 +510,25 @@ let enemy
 let renderedSprites
 let queue 
 
+function endBattle(enemyName){
+    queue.push(() => {
+        gsap.to('#overlappingDiv', {
+            opacity: 1,
 
-// Upon battle initialization,
-// the ally is 
+            onComplete: () => {
+                cancelAnimationFrame(battleAnimationId)
+                animate()
+                document.querySelector('#userInterface').style.display = 'none'
+                // Save Pokemon in Pokedex
+                createNewPokemon(enemyName)
+                gsap.to('#overlappingDiv', {
+                    opacity: 0,
+                })
+                battle.initiated = false
+            }
+        })
+    })
+}
 function initBattle(name, url){
     document.querySelector('#userInterface').style.display = 'block';
     document.querySelector('#dialogueBox').style.display = 'none';
@@ -526,7 +541,7 @@ function initBattle(name, url){
     enemy = new Monster({
         position: {
             x: 650,
-            y: 90
+            y: 80
         },
         scale: {
             x: 2,
@@ -565,20 +580,7 @@ function initBattle(name, url){
                 queue.push(()=>{
                     ally.faint()
                 })
-                queue.push(()=>{
-                    gsap.to('#overlappingDiv', {
-                        opacity: 1,
-                        onComplete: () => {
-                            battle.initiated = false
-                            animate()
-                            document.querySelector('#userInterface').style.display = 'none'
-                            gsap.to('#overlappingDiv', {
-                                opacity: 0
-                            })
-                            battle.initiated = false
-                        }
-                    })
-                })
+                endBattle(enemy.name);
             }
             // enemy attack
             const randomAttack = ally.attacks[Math.floor(Math.random() * ally.attacks.length)]
@@ -594,21 +596,7 @@ function initBattle(name, url){
                     queue.push(() => {
                         enemy.faint()
                     })
-                    queue.push(()=>{
-                        gsap.to('#overlappingDiv', {
-                            opacity: 1,
-                            onComplete: () => {
-                                battle.initiated = false
-                                cancelAnimationFrame(battleAnimationId)
-                                animate()
-                                document.querySelector('#userInterface').style.display = 'none'
-                                gsap.to('#overlappingDiv', {
-                                    opacity: 0
-                                })
-                                battle.initiated = false
-                            }
-                        })
-                    })
+                    endBattle(enemy.name);
                 }
             })
         })
@@ -636,73 +624,7 @@ document.querySelector('#dialogueBox').addEventListener('click', (e) => {
         queue.shift()
     } else e.currentTarget.style.display = 'none'
 })
-// event listeners for buttons 
-document.querySelectorAll('button').forEach((button) => {
-    button.addEventListener('click', (e) => {
-        console.log('clicked')
-        const selectedAttack = attacks[e.currentTarget.innerHTML]
-        enemy.attack({
-            attack: selectedAttack,
-            recipient: ally
-        })
-        if(ally.health <= 0){
-            queue.push(()=>{
-                ally.faint()
-            })
-            queue.push(()=>{
-                //fade back to black
-                gsap.to('#overlappingDiv', {
-                    opacity: 1,
-                    onComplete: () => {
-                        cancelAnimationFrame(battleAnimationId)
-                        animate()
-                        document.querySelector('#userInterface').style.display = 'none'
-                        gsap.to('#overlappingDiv', {
-                            opacity: 0
-                        })
-                        battle.initiated = false
-                    }
-                })
-            })
-        }
-        // enemy attack
-        const randomAttack = ally.attacks[Math.floor(Math.random() * ally.attacks.length)]
-        
-        queue.push(() => {
-            ally.attack({
-                attack: randomAttack, 
-                recipient: enemy,
-                renderedSprites
-            })
 
-            if (enemy.health <=0){
-                queue.push(() => {
-                    enemy.faint()
-                })
-                // end battle
-                queue.push(()=>{
-                    gsap.to('#overlappingDiv', {
-                        opacity: 1,
-                        onComplete: () => {
-                            cancelAnimationFrame(battleAnimationId)
-                            animate()
-                            document.querySelector('#userInterface').style.display = 'none'
-                            gsap.to('#overlappingDiv', {
-                                opacity: 0
-                            })
-                            battle.initiated = false
-                        }
-                    })
-                })
-            }
-        })
-    })
-    button.addEventListener('mouseenter', (e)=> {
-        const selectedAttack = attacks[e.currentTarget.innerHTML]
-        document.querySelector('#attackType').innerHTML = selectedAttack.type
-        document.querySelector('#attackType').style.color = selectedAttack.color
-    })
-})
 let lastKey = ''
 window.addEventListener('keydown', (e) => {
     switch (e.key){
@@ -749,3 +671,12 @@ window.addEventListener('keyup', (e) => {
     }
 })
 
+function createNewPokemon(name) {
+    const formData = new FormData();
+    formData.append("name", name);
+  
+    return fetch("/api/pokemon", { method: "POST", body: formData }).then(
+      (response) => response.json()
+    );
+  }
+  

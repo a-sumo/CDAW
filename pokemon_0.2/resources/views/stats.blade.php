@@ -1,10 +1,12 @@
 @extends('layouts/template')
 
 @section('content')
-<div>
-<img src="<?php echo $sprites[1]; ?>">
+<div style="margin: 30px;  display: grid;">
+@foreach($sprites as $sprite)
+<img src="<?php print_r($sprite); ?>">
+@endforeach
 </div>
-<div>
+<div style="margin: 30px">
     <table id="table-pokemons" class="display">
             <thead>
                 <tr>
@@ -28,6 +30,5 @@
 $(document).ready( function () {
   $('#table-pokemons').DataTable();
 } );
-console.log('<?php echo $sprites[1]; ?>')
 </script>
 @endsection

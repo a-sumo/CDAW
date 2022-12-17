@@ -32,24 +32,13 @@
             <div id = "attacksBox" class= "grid grid-cols-2 basis-2/3 border-2">
             </div> 
             <div class= "grid grid-cols-1 basis-1/3 border-2">
-                <div id= "attackType" class="bg-white hover:bg-gray-100 text-gray-800 font-semibold">Attack Type</div>
+                <div id= "attackType" class="bg-white hover:bg-gray-100 text-gray-800 font-semibold flex items-center justify-center">Attack Type</div>
             </div>
         </div>
-        <!-- <div id="overlappingDiv"
-        style="background-color: black; position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        opacity:0;
-        pointer-events:
-        none;
-        z-index: 10 "> 
-        </div> -->
         <div 
             style="background-color: white; width: 250px; position: absolute; top: 50px; left: 50px;
             border: 4px black solid; padding: 12px;">
-            <div><h1 id = "enemyName" style= "font-size: 16px">Draggle</h1></div>
+            <h1 style= "font-size: 16px" id = "enemyName">Draggle</h1>
             <div style= "position: relative;">
                 <div style="height: 5px; background-color: #ccc; margin-top: 10px"></div>
                 <div id = "enemyHealthBar" style="height: 5px;
@@ -63,7 +52,7 @@
         <div 
             style="background-color: white; width: 250px; position: absolute; top: 320px; left: 610px;
             border: 4px black solid; padding: 12px;">
-            <div><h1 id = "allyName" style= "font-size: 16px">Emby</h1></div>
+            <h1 id = "allyName" style= "margin-top: 10px; font-size: 16px">Emby</h1>
             <div style= "position: relative;">
                 <div style="height: 5px; background-color: #ccc; margin-top: 10px"></div>
                 <div id = "playerHealthBar" style="height: 5px;

@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\Api\StatsController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -17,3 +17,6 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+Route::get('/pokemon', ['App\Http\Controllers\PokemonController', 'listApi'])->middleware('auth:sanctum');
+Route::post('/pokemon', ['App\Http\Controllers\PokemonController', 'createApi'])->middleware('auth:sanctum');
+Route::delete('/pokemon/{id}', ['App\Http\Controllers\PokemonController', 'deleteApi'])->middleware('auth:sanctum');
