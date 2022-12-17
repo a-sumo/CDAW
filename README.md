@@ -23,7 +23,7 @@ Implemented features:
 - enemy pokemon storage inside pokédex upon battle end
 - display of Pokémon sprites and names fetched with PokéAPI
 
-Features that aven't been implement due to time constraints:
+Features that haven't been implement due to time constraints:
 
 -  types for moves and pokemons
 -  damage and health recovery system 
