@@ -18,6 +18,9 @@ Test User:
 
 Implemented features:
 
+- user authentication through Laravel Jetstream
+- Database migrations and seeding
+- Use of the Fetch API for Get and Post HTTP requests
 - player movement inside map with collisions and battlezones
 - pokemon encounters within battlezones
 - battlescene with generic abilities

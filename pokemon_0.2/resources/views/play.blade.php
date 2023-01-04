@@ -66,6 +66,11 @@
     </div>
     <canvas width= "1024" height= "576"></canvas>
 </div>
+<form action="{{}}" method="post"
+    {{ csrf_field() }}
+    @foreach($)
+
+></form>
 @endsection
 @section('script')
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.3/gsap.min.js"></script>
