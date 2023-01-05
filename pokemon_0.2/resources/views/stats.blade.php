@@ -1,7 +1,7 @@
 @extends('layouts/template')
 
 @section('content')
-<div class = "text-center py-10">Pokédex</div>
+<div class = "text-center py-10"> <?php print_r($user->name); ?>'s Pokédex</div>
 <div style="
 display: grid; 
 grid-template-columns: repeat(12, 40px);">

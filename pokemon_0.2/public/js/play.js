@@ -521,6 +521,7 @@ function endBattle(enemyName){
                 document.querySelector('#userInterface').style.display = 'none'
                 // Save Species in Pokedex
                 storeSpecies(enemyName)
+                storePokemon(enemyName)
                 gsap.to('#overlappingDiv', {
                     opacity: 0,
                 })
@@ -681,7 +682,7 @@ function storeSpecies(name) {
     //     body: JSON.stringify(pokemonObj)
     //   }
     const formData = new FormData();
-    formData.append("name", name);
+    formData.append("name", name.charAt(0).toUpperCase() + name.slice(1));
     return fetch("http://localhost:8000/api/species", { method: "POST", body: formData }).then(
       (response) => {console.log(response); response.json();}
     );
@@ -689,8 +690,8 @@ function storeSpecies(name) {
   
   function storePokemon(name) {
     const formData = new FormData();
-    formData.append("name", name);
-    return fetch("http://localhost:8000/api/species", { method: "POST", body: formData }).then(
+    formData.append("name", name.charAt(0).toUpperCase() + name.slice(1));
+    return fetch("http://localhost:8000/api/pokemon", { method: "POST", body: formData }).then(
       (response) => {console.log(response); response.json();}
     );
   }

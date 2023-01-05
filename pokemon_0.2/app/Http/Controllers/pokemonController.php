@@ -18,16 +18,17 @@ class PokemonController extends Controller
 
     public function createApi(Request $request){
         $name = $request->input('name');
-        // $date = $request->input('date');
         $user = Auth::user();
         $user_id = Auth::id();
 
         if($name){
-          $pokemon = new Pokemon();
-          $pokemon->name = $name;
-          $pokemon->user_id = $user_id;
-          $pokemon->save();
-          return response()->json(["status" => "success"]);
+          if (!Pokemon::where('name', $name)->exists()) {
+            $pokemon = new Pokemon();
+            $pokemon->name = $name;
+            $pokemon->user_id = $user_id;
+            $pokemon->save();
+            return response()->json(["status" => "success"]);
+         }
         }else{
           return response()->json(["status" => "error"]);
         }

@@ -20,3 +20,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('/pokemon', ['App\Http\Controllers\PokemonController', 'listApi']);
 Route::post('/species', ['App\Http\Controllers\SpeciesController', 'createApi']);
 Route::delete('/species/{id}', ['App\Http\Controllers\SpeciesController', 'deleteApi']);
+Route::post('/pokemon', ['App\Http\Controllers\PokemonController', 'createApi']);
+Route::delete('/pokemon/{id}', ['App\Http\Controllers\PokemonController', 'deleteApi']);

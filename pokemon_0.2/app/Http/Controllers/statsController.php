@@ -16,6 +16,7 @@ class StatsController extends Controller
     public function getPokemonData(){
         // fetch sprites for each known pokemon
         $pokemons = Pokemon::where('user_id', Auth::id())->get();
+        $user = Auth::user();
         $sprites = array();
         foreach ($pokemons as $key => $value){
             $url = 'https://pokeapi.co/api/v2/pokemon/' . lcfirst($value->name) . '/';
@@ -23,16 +24,17 @@ class StatsController extends Controller
             ['sprites']['versions']['generation-v']['black-white']['animated']['front_default'];
             array_push($sprites, $sprite_front_animated);
         }   
-        return view('stats',['pokemons' => $pokemons, 'sprites' => $sprites ]);
+        return view('stats',['pokemons' => $pokemons, 'sprites' => $sprites, 'user' => $user]);
     }
     public function getPokemonUserData(){
         // Get the Pokemon data of current user
         $pokemons = Pokemon::where('user_id', '==', Auth::id())->get();
+        $user = Auth::user();
         $sprite_back_animated = Http::get('https://pokeapi.co/api/v2/pokemon/bulbasaur/')
         ['sprites']['versions']['generation-v']['black-white']['animated']['back_default'];
         $sprite_front_animated = Http::get('https://pokeapi.co/api/v2/pokemon/bulbasaur/')
         ['sprites']['versions']['generation-v']['black-white']['animated']['front_default'];
-        return view('play',['pokemons' => $pokemons, 'sprites'=> [$sprite_back_animated, $sprite_front_animated]]);
+        return view('play',['pokemons' => $pokemons, 'sprites'=> [$sprite_back_animated, $sprite_front_animated], 'user' => $user]);
     }
     /**
      * Store a newly created resource in storage.
