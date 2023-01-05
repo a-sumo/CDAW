@@ -6,7 +6,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\View; 
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Pokemon;
+use App\Models\User;
 
 class PokemonController extends Controller
 {
@@ -17,10 +19,13 @@ class PokemonController extends Controller
     public function createApi(Request $request){
         $name = $request->input('name');
         // $date = $request->input('date');
-    
+        $user = Auth::user();
+        $user_id = Auth::id();
+
         if($name){
           $pokemon = new Pokemon();
           $pokemon->name = $name;
+          $pokemon->user_id = $id;
           $pokemon->save();
           return response()->json(["status" => "success"]);
         }else{
@@ -36,8 +41,4 @@ class PokemonController extends Controller
             return response()->json(["status" => "error"]);
         }
     }
-    
-    
-    
-    
 }
