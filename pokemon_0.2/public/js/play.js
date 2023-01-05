@@ -519,7 +519,7 @@ function endBattle(enemyName){
                 cancelAnimationFrame(battleAnimationId)
                 animate()
                 document.querySelector('#userInterface').style.display = 'none'
-                // Save Pokemon in Pokedex
+                // Save Species in Pokedex
                 storeSpecies(enemyName)
                 gsap.to('#overlappingDiv', {
                     opacity: 0,
@@ -572,9 +572,9 @@ function initBattle(name, url){
     document.querySelectorAll('button').forEach((button) => {
         button.addEventListener('click', (e) => {
             const selectedAttack = attacks[e.currentTarget.innerHTML]
-            enemy.attack({
+            ally.attack({
                 attack: selectedAttack,
-                recipient: ally
+                recipient: enemy
             })
             if(ally.health <= 0){
                 queue.push(()=>{
@@ -582,13 +582,13 @@ function initBattle(name, url){
                 })
                 endBattle(enemy.name);
             }
-            // enemy attack
-            const randomAttack = ally.attacks[Math.floor(Math.random() * ally.attacks.length)]
+            // ally attack
+            const randomAttack = enemy.attacks[Math.floor(Math.random() * enemy.attacks.length)]
             
             queue.push(() => {
-                ally.attack({
+                enemy.attack({
                     attack: randomAttack, 
-                    recipient: enemy,
+                    recipient: ally,
                     renderedSprites
                 })
     
@@ -687,3 +687,10 @@ function storeSpecies(name) {
     );
   }
   
+  function storePokemon(name) {
+    const formData = new FormData();
+    formData.append("name", name);
+    return fetch("http://localhost:8000/api/species", { method: "POST", body: formData }).then(
+      (response) => {console.log(response); response.json();}
+    );
+  }

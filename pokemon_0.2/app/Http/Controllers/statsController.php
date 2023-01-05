@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\View; 
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Pokemon;
 use App\Models\Species;
 use App\Http\Requests\StorePokemonRequest;
@@ -13,7 +14,8 @@ use App\Http\Requests\StorePokemonRequest;
 class StatsController extends Controller
 {
     public function getPokemonData(){
-        $pokemons = Species::all();
+        // fetch sprites for each known pokemon
+        $pokemons = Pokemon::where('user_id', Auth::id())->get();
         $sprites = array();
         foreach ($pokemons as $key => $value){
             $url = 'https://pokeapi.co/api/v2/pokemon/' . lcfirst($value->name) . '/';
@@ -23,8 +25,9 @@ class StatsController extends Controller
         }   
         return view('stats',['pokemons' => $pokemons, 'sprites' => $sprites ]);
     }
-    public function getPokemonGameData(){
-        $pokemons = Pokemon::all();
+    public function getPokemonUserData(){
+        // Get the Pokemon data of current user
+        $pokemons = Pokemon::where('user_id', '==', Auth::id())->get();
         $sprite_back_animated = Http::get('https://pokeapi.co/api/v2/pokemon/bulbasaur/')
         ['sprites']['versions']['generation-v']['black-white']['animated']['back_default'];
         $sprite_front_animated = Http::get('https://pokeapi.co/api/v2/pokemon/bulbasaur/')

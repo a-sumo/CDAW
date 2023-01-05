@@ -13,7 +13,7 @@ use App\Models\User;
 class PokemonController extends Controller
 {
     public function listApi(){
-        return response()->json(Pokemon::all());
+        return response()->json(Pokemon::where('user_id', Auth::id())->get());
     }
 
     public function createApi(Request $request){
@@ -25,7 +25,7 @@ class PokemonController extends Controller
         if($name){
           $pokemon = new Pokemon();
           $pokemon->name = $name;
-          $pokemon->user_id = $id;
+          $pokemon->user_id = $user_id;
           $pokemon->save();
           return response()->json(["status" => "success"]);
         }else{
